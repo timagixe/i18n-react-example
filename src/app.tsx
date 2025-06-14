@@ -1,5 +1,10 @@
+import { HomePage } from "@/pages";
 import { Providers } from "./providers";
 
 export function App() {
-    return <Providers>Hello World</Providers>;
+    return (
+        <Providers>
+            <HomePage />
+        </Providers>
+    );
 }
