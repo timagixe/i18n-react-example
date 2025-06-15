@@ -1,4 +1,5 @@
 {
+  "2FRjqj": "Welcome to your personal dashboard",
   "4FWPx3": "Daily News",
   "60k7ak": "Read more",
   "C/yJTp": "This is the about page of our application.",
@@ -10,6 +11,7 @@
   "Sflb6p": "Go back home",
   "VeCJxU": "Home",
   "WSd8dc": "Page not found",
+  "ZJtn+k": "{timeOfDay, select, morning {Good morning, {name}!} afternoon {Good afternoon, {name}!} evening {Good evening, {name}!} other {Hello, {name}!}}",
   "a//1Nk": "{count, plural, =0 {No articles} =1 {1 article} other {# articles}} available",
   "currency.upgrade": "Upgrade to Premium for {price}",
   "h6psDG": "My World Dashboard",
