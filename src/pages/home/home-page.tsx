@@ -7,7 +7,7 @@ import { GreetingSection } from "./greeting-section";
 export function HomePage() {
     return (
         <div className={`min-h-screen transition-colors duration-300`}>
-            <div className="container mx-auto p-4 space-y-6">
+            <div className="p-4 space-y-6">
                 {/* Dashboard Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Greeting Section */}
