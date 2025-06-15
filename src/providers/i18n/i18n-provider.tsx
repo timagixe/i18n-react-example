@@ -1,10 +1,14 @@
 import type { PropsWithChildren } from "react";
 import { IntlProvider } from "react-intl";
-import enMessages from "./locales/en.json";
 import { useLocaleContext } from "../locale";
+import enMessages from "./locales/en.json";
+import esMessages from "./locales/es.json";
+import arMessages from "./locales/ar.json";
 
 const messages = {
     en: enMessages,
+    es: esMessages,
+    ar: arMessages,
 };
 
 export function I18NProvider({ children }: PropsWithChildren) {
