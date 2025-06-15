@@ -1,10 +1,5 @@
-import { DirectionProvider } from "./direction-provider";
-import { ThemeProvider } from "./theme-provider";
+import { RouterProvider } from "./router-provider";
 
-export function Providers({ children }: React.PropsWithChildren) {
-    return (
-        <ThemeProvider>
-            <DirectionProvider>{children}</DirectionProvider>
-        </ThemeProvider>
-    );
+export function Providers() {
+    return <RouterProvider />;
 }
