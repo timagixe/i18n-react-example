@@ -6,17 +6,20 @@ import { RootLayout } from "@/components/root-layout";
 import { ThemeProvider } from "./theme-provider";
 import { DirectionProvider } from "./direction-provider";
 import { I18NProvider } from "./i18n/i18n-provider";
+import { LocaleProvider } from "./locale";
 
 const router = createBrowserRouter([
     {
         element: (
-            <I18NProvider>
-                <ThemeProvider>
-                    <DirectionProvider>
-                        <RootLayout />
-                    </DirectionProvider>
-                </ThemeProvider>
-            </I18NProvider>
+            <LocaleProvider>
+                <I18NProvider>
+                    <ThemeProvider>
+                        <DirectionProvider>
+                            <RootLayout />
+                        </DirectionProvider>
+                    </ThemeProvider>
+                </I18NProvider>
+            </LocaleProvider>
         ),
         children: [
             {

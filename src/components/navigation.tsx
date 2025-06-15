@@ -7,16 +7,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { useLocaleContext } from "@/providers/locale";
 import { useTheme } from "@/providers/theme-provider";
 import { Globe, Moon, Sun } from "lucide-react";
-import { useState } from "react";
 import { defineMessages, FormattedMessage } from "react-intl";
 import { NavLink } from "react-router-dom";
 
 const messages = defineMessages({
     title: {
         description: "The title of the navigation section",
-        defaultMessage: "!My World Dashboard!",
+        defaultMessage: "My World Dashboard",
     },
     home: {
         description: "The home page link label",
@@ -35,7 +35,7 @@ const locales = [
 ];
 
 export function Navigation() {
-    const [locale, setLocale] = useState("en");
+    const { locale, setLocale } = useLocaleContext();
     const { theme, setTheme } = useTheme();
 
     return (
@@ -78,7 +78,7 @@ export function Navigation() {
 
                     <div className="flex flex-wrap gap-2">
                         {/* Language Switcher */}
-                        <Select value={locale} onValueChange={setLocale}>
+                        <Select value={locale} onValueChange={setLocale} open>
                             <SelectTrigger className="w-40">
                                 <SelectValue />
                             </SelectTrigger>
