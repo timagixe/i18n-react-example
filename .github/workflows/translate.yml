@@ -18,15 +18,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: '20'
-          cache: 'npm'
+          bun-version: latest
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          bun install
+          bun pm ls
 
       - name: Configure Git
         run: |
@@ -37,7 +39,7 @@ jobs:
         env:
           LANGUINE_API_KEY: ${{ secrets.LANGUINE_API_KEY }}
         run: |
-          npm run languine:translate
+          bun run languine:translate
 
       - name: Check for changes
         id: git-check
@@ -52,5 +54,6 @@ jobs:
       - name: Commit and push changes
         if: steps.git-check.outputs.changes == 'true'
         run: |
+          git checkout -b pr-${{ github.event.pull_request.number }}
           git commit -m "chore: update translations [skip ci]"
-          git push
+          git push origin pr-${{ github.event.pull_request.number }}:${{ github.event.pull_request.head.ref }}
