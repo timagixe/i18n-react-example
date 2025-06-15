@@ -28,7 +28,8 @@ const messages = defineMessages({
     },
     alerts: {
         id: "weather.alerts",
-        defaultMessage: "{count, plural, =0 {No weather alerts} =1 {1 weather alert} other {# weather alerts}}",
+        defaultMessage:
+            "{count, plural, =0 {No weather alerts} =1 {1 weather alert} other {# weather alerts}}",
     },
     upgrade: {
         id: "currency.upgrade",
