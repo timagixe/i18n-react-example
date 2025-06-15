@@ -10,7 +10,23 @@ import {
 import { useTheme } from "@/providers/theme-provider";
 import { Globe, Moon, Sun } from "lucide-react";
 import { useState } from "react";
+import { defineMessages, FormattedMessage } from "react-intl";
 import { NavLink } from "react-router-dom";
+
+const messages = defineMessages({
+    title: {
+        description: "The title of the navigation section",
+        defaultMessage: "!My World Dashboard!",
+    },
+    home: {
+        description: "The home page link label",
+        defaultMessage: "Home",
+    },
+    about: {
+        description: "The about page link label",
+        defaultMessage: "About",
+    },
+});
 
 const locales = [
     { code: "en", name: "English", flag: "🇺🇸" },
@@ -29,7 +45,7 @@ export function Navigation() {
                     <div className="flex items-center gap-6">
                         <CardTitle className="text-2xl font-bold flex items-center gap-2">
                             <Globe className="h-6 w-6" />
-                            My World Dashboard
+                            <FormattedMessage {...messages.title} />
                         </CardTitle>
                     </div>
 
@@ -44,7 +60,7 @@ export function Navigation() {
                                 }`
                             }
                         >
-                            Home
+                            <FormattedMessage {...messages.home} />
                         </NavLink>
                         <NavLink
                             to="/about"
@@ -56,7 +72,7 @@ export function Navigation() {
                                 }`
                             }
                         >
-                            About
+                            <FormattedMessage {...messages.about} />
                         </NavLink>
                     </nav>
 

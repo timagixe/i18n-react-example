@@ -5,15 +5,18 @@ import { HomePage, AboutPage, NotFoundPage } from "@/pages";
 import { RootLayout } from "@/components/root-layout";
 import { ThemeProvider } from "./theme-provider";
 import { DirectionProvider } from "./direction-provider";
+import { I18NProvider } from "./i18n/i18n-provider";
 
 const router = createBrowserRouter([
     {
         element: (
-            <ThemeProvider>
-                <DirectionProvider>
-                    <RootLayout />
-                </DirectionProvider>
-            </ThemeProvider>
+            <I18NProvider>
+                <ThemeProvider>
+                    <DirectionProvider>
+                        <RootLayout />
+                    </DirectionProvider>
+                </ThemeProvider>
+            </I18NProvider>
         ),
         children: [
             {
