@@ -10,7 +10,7 @@ import {
 import { useLocaleContext } from "@/providers/locale";
 import { useTheme } from "@/providers/theme-provider";
 import { Globe, Moon, Sun } from "lucide-react";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 import { NavLink } from "react-router-dom";
 
 const messages = defineMessages({
@@ -26,17 +26,30 @@ const messages = defineMessages({
         description: "The about page link label",
         defaultMessage: "About",
     },
+    english: {
+        description: "The English locale label",
+        defaultMessage: "English",
+    },
+    spanish: {
+        description: "The Spanish locale label",
+        defaultMessage: "Spanish",
+    },
+    arabic: {
+        description: "The Arabic locale label",
+        defaultMessage: "Arabic",
+    },
 });
 
-const locales = [
-    { code: "en", name: "English", flag: "🇺🇸" },
-    { code: "es", name: "Español", flag: "🇪🇸" },
-    { code: "ar", name: "العربية", flag: "🇸🇦" },
-];
-
 export function Navigation() {
+    const intl = useIntl();
     const { locale, setLocale } = useLocaleContext();
     const { theme, setTheme } = useTheme();
+
+    const locales = [
+        { code: "en", name: intl.formatMessage(messages.english), flag: "🇺🇸" },
+        { code: "es", name: intl.formatMessage(messages.spanish), flag: "🇪🇸" },
+        { code: "ar", name: intl.formatMessage(messages.arabic), flag: "🇸🇦" },
+    ];
 
     return (
         <Card className="m-4">
