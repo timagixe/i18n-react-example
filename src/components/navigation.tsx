@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 const messages = defineMessages({
     title: {
         description: "The title of the navigation section",
-        defaultMessage: "My World Dashboard",
+        defaultMessage: "Sunny Beach Weather Club!",
     },
     home: {
         description: "The home page link label",
