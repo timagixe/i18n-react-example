@@ -1,7 +1,7 @@
 "use client";
 
 import { defineMessages, useIntl } from "react-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -110,17 +110,18 @@ const genders = [
     { code: "prefer_not_to_say", message: messages.preferNotToSay },
 ] as const;
 
-const formSchema = z.object({
-    name: z.string().min(1, "Name is required"),
-    email: z.string().email("Valid email is required"),
-    gender: z.enum(["male", "female", "other", "prefer_not_to_say"] as const).optional(),
-    message: z.string().min(1, "Message is required"),
-});
-
-type FormData = z.infer<typeof formSchema>;
-
 export function FeedbackForm() {
     const intl = useIntl();
+
+    const formSchema = z.object({
+        name: z.string().min(1, intl.formatMessage(messages.errorName)),
+        email: z.string().email(intl.formatMessage(messages.errorEmail)),
+        gender: z.enum(["male", "female", "other", "prefer_not_to_say"] as const).optional(),
+        message: z.string().min(1, intl.formatMessage(messages.errorMessage)),
+    });
+
+    type FormData = z.infer<typeof formSchema>;
+
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [submittedData, setSubmittedData] = useState<FormData | null>(null);
 
@@ -142,6 +143,21 @@ export function FeedbackForm() {
             form.reset();
         }, 500);
     };
+
+    const {
+        trigger,
+        formState: { errors },
+    } = form;
+
+    useEffect(() => {
+        // Get fields that have errors
+        const fieldsWithErrors = Object.keys(errors);
+
+        // If there are any fields with errors, trigger their validation
+        if (fieldsWithErrors.length > 0) {
+            trigger(fieldsWithErrors as Array<keyof FormData>);
+        }
+    }, [intl.locale, errors, trigger]);
 
     if (isSubmitted && submittedData) {
         return (
