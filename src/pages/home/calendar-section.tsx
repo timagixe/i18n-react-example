@@ -1,10 +1,36 @@
 "use client";
 
+import { defineMessages, useIntl } from "react-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock } from "lucide-react";
 
+const messages = defineMessages({
+    title: {
+        description: "The title of the calendar section showing upcoming events",
+        defaultMessage: "Upcoming Events",
+    },
+    noEvents: {
+        description: "Message shown when there are no upcoming events",
+        defaultMessage: "No upcoming events",
+    },
+    eventTime: {
+        description: "Format for displaying event date and time, where {date} is the formatted date and {time} is the formatted time",
+        defaultMessage: "{date} at {time}",
+    },
+    eventsCount: {
+        description: "Text showing the number of events this week, with plural forms for different counts",
+        defaultMessage: "{count, plural, =0 {No events} =1 {1 event} other {# events}} this week",
+    },
+    eventType: {
+        description: "Label for the event type badge",
+        defaultMessage: "{type, select, work {Work} personal {Personal} other {Other}}",
+    },
+});
+
 export function CalendarSection() {
+    const intl = useIntl();
+
     // Mock calendar events
     const events = [
         {
@@ -33,22 +59,19 @@ export function CalendarSection() {
                 <CardTitle className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <Calendar className="h-5 w-5" />
-                        Upcoming Events
+                        {intl.formatMessage(messages.title)}
                     </div>
                     <Badge variant="secondary" className="text-xs">
-                        {events.length === 0
-                            ? "No events"
-                            : events.length === 1
-                              ? "1 event"
-                              : `${events.length} events`}{" "}
-                        this week
+                        {intl.formatMessage(messages.eventsCount, { count: events.length })}
                     </Badge>
                 </CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="space-y-3">
                     {events.length === 0 ? (
-                        <p className="text-muted-foreground text-sm">No upcoming events</p>
+                        <p className="text-muted-foreground text-sm">
+                            {intl.formatMessage(messages.noEvents)}
+                        </p>
                     ) : (
                         events.map((event) => (
                             <div
@@ -59,22 +82,23 @@ export function CalendarSection() {
                                     <h4 className="font-medium text-sm">{event.title}</h4>
                                     <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                         <Clock className="h-3 w-3" />
-                                        {new Intl.DateTimeFormat("en", {
-                                            month: "short",
-                                            day: "numeric",
-                                        }).format(event.date)}{" "}
-                                        at{" "}
-                                        {new Intl.DateTimeFormat("en", {
-                                            hour: "numeric",
-                                            minute: "2-digit",
-                                        }).format(event.date)}
+                                        {intl.formatMessage(messages.eventTime, {
+                                            date: intl.formatDate(event.date, {
+                                                month: "short",
+                                                day: "numeric",
+                                            }),
+                                            time: intl.formatTime(event.date, {
+                                                hour: "numeric",
+                                                minute: "2-digit",
+                                            }),
+                                        })}
                                     </div>
                                 </div>
                                 <Badge
                                     variant={event.type === "work" ? "default" : "secondary"}
                                     className="text-xs"
                                 >
-                                    {event.type}
+                                    {intl.formatMessage(messages.eventType, { type: event.type })}
                                 </Badge>
                             </div>
                         ))
