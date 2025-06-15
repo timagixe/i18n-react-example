@@ -1,6 +1,5 @@
 "use client";
 
-import type React from "react";
 import { defineMessages, useIntl } from "react-intl";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,15 +14,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import {
-    MessageSquare,
-    CheckCircle,
-    AlertCircle,
-    User,
-    Mail,
-    MessageSquareMore,
-    UserRound,
-} from "lucide-react";
+import { MessageSquare, CheckCircle, User, Mail, MessageSquareMore, UserRound } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 const messages = defineMessages({
     title: {
@@ -108,63 +103,44 @@ const messages = defineMessages({
     },
 });
 
+const genders = [
+    { code: "male", message: messages.male },
+    { code: "female", message: messages.female },
+    { code: "other", message: messages.other },
+    { code: "prefer_not_to_say", message: messages.preferNotToSay },
+] as const;
+
+const formSchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    email: z.string().email("Valid email is required"),
+    gender: z.enum(["male", "female", "other", "prefer_not_to_say"] as const).optional(),
+    message: z.string().min(1, "Message is required"),
+});
+
+type FormData = z.infer<typeof formSchema>;
+
 export function FeedbackForm() {
     const intl = useIntl();
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        gender: "",
-        message: "",
-    });
-    const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [submittedData, setSubmittedData] = useState<typeof formData | null>(null);
+    const [submittedData, setSubmittedData] = useState<FormData | null>(null);
 
-    const genders = [
-        { code: "male", message: messages.male },
-        { code: "female", message: messages.female },
-        { code: "other", message: messages.other },
-        { code: "prefer_not_to_say", message: messages.preferNotToSay },
-    ];
+    const form = useForm<FormData>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            gender: undefined,
+            message: "",
+        },
+    });
 
-    const validateForm = () => {
-        const newErrors: Record<string, string> = {};
-
-        if (!formData.name.trim()) {
-            newErrors.name = intl.formatMessage(messages.errorName);
-        }
-
-        if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = intl.formatMessage(messages.errorEmail);
-        }
-
-        if (!formData.message.trim()) {
-            newErrors.message = intl.formatMessage(messages.errorMessage);
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (validateForm()) {
-            // Simulate form submission
-            setTimeout(() => {
-                setSubmittedData(formData);
-                setIsSubmitted(true);
-                setFormData({ name: "", email: "", gender: "", message: "" });
-            }, 500);
-        }
-    };
-
-    const handleInputChange = (field: string, value: string) => {
-        setFormData((prev) => ({ ...prev, [field]: value }));
-        // Clear error when user starts typing
-        if (errors[field]) {
-            setErrors((prev) => ({ ...prev, [field]: "" }));
-        }
+    const onSubmit = (data: FormData) => {
+        // Simulate form submission
+        setTimeout(() => {
+            setSubmittedData(data);
+            setIsSubmitted(true);
+            form.reset();
+        }, 500);
     };
 
     if (isSubmitted && submittedData) {
@@ -251,77 +227,102 @@ export function FeedbackForm() {
                 </CardTitle>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <Input
-                                placeholder={intl.formatMessage(messages.namePlaceholder)}
-                                value={formData.name}
-                                onChange={(e) => handleInputChange("name", e.target.value)}
-                                className={errors.name ? "border-red-500" : ""}
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                placeholder={intl.formatMessage(
+                                                    messages.namePlaceholder,
+                                                )}
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
                             />
-                            {errors.name && (
-                                <div className="flex items-center gap-1 mt-1 text-sm text-red-500">
-                                    <AlertCircle className="h-3 w-3" />
-                                    {errors.name}
-                                </div>
-                            )}
+
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                type="email"
+                                                placeholder={intl.formatMessage(
+                                                    messages.emailPlaceholder,
+                                                )}
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
 
-                        <div>
-                            <Input
-                                type="email"
-                                placeholder={intl.formatMessage(messages.emailPlaceholder)}
-                                value={formData.email}
-                                onChange={(e) => handleInputChange("email", e.target.value)}
-                                className={errors.email ? "border-red-500" : ""}
-                            />
-                            {errors.email && (
-                                <div className="flex items-center gap-1 mt-1 text-sm text-red-500">
-                                    <AlertCircle className="h-3 w-3" />
-                                    {errors.email}
-                                </div>
+                        <FormField
+                            control={form.control}
+                            name="gender"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                    >
+                                        <FormControl className="w-full">
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                    placeholder={intl.formatMessage(
+                                                        messages.genderPlaceholder,
+                                                    )}
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {genders.map((gender) => (
+                                                <SelectItem key={gender.code} value={gender.code}>
+                                                    {intl.formatMessage(gender.message)}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
                             )}
-                        </div>
-                    </div>
-
-                    <Select
-                        value={formData.gender}
-                        onValueChange={(value) => handleInputChange("gender", value)}
-                    >
-                        <SelectTrigger className="w-full">
-                            <SelectValue
-                                placeholder={intl.formatMessage(messages.genderPlaceholder)}
-                            />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {genders.map((gender) => (
-                                <SelectItem key={gender.code} value={gender.code}>
-                                    {intl.formatMessage(gender.message)}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-
-                    <div>
-                        <Textarea
-                            placeholder={intl.formatMessage(messages.messagePlaceholder)}
-                            value={formData.message}
-                            onChange={(e) => handleInputChange("message", e.target.value)}
-                            className={`min-h-[100px] ${errors.message ? "border-red-500" : ""}`}
                         />
-                        {errors.message && (
-                            <div className="flex items-center gap-1 mt-1 text-sm text-red-500">
-                                <AlertCircle className="h-3 w-3" />
-                                {errors.message}
-                            </div>
-                        )}
-                    </div>
 
-                    <Button type="submit" className="w-full">
-                        {intl.formatMessage(messages.submit)}
-                    </Button>
-                </form>
+                        <FormField
+                            control={form.control}
+                            name="message"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder={intl.formatMessage(
+                                                messages.messagePlaceholder,
+                                            )}
+                                            className="min-h-[100px]"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <Button type="submit" className="w-full">
+                            {intl.formatMessage(messages.submit)}
+                        </Button>
+                    </form>
+                </Form>
             </CardContent>
         </Card>
     );
