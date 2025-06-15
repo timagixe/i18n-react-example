@@ -78,7 +78,7 @@ export function Navigation() {
 
                     <div className="flex flex-wrap gap-2">
                         {/* Language Switcher */}
-                        <Select value={locale} onValueChange={setLocale} open>
+                        <Select value={locale} onValueChange={setLocale}>
                             <SelectTrigger className="w-40">
                                 <SelectValue />
                             </SelectTrigger>
