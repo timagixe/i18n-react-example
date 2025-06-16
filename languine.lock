@@ -1,9 +1,53 @@
 version: 1
 files:
   src/providers/i18n/locales/en.json:
+    2FRjqj: a9c3de9ef0ce49a73b031931b6255b4c
+    3zezWU: c45592188c142a58ab90a9c8c5cb4ba2
+    4FWPx3: 42c59972bb4bed383a8860f7d5f5a14b
+    5MVAC9: 0845e0da28909ae3ae7c7b016c569bc8
+    5g2Umh: bea4c2c8eb82d05891ddd71584881b56
+    60k7ak: 43340e6cc4e88197d57f8d6d5ea50a46
+    C/yJTp: bdca9eaa598cc45dc94c8d614df1c49c
+    C2UYur: 8cc5901dd4637482612374210742e4b1
+    DKMP6z: b719ce180ec7bd9641fece2f920f4817
     ESYebm: 78463a384a5aa4fad5fa73e2f506ecfc
+    EW4NJL: 6311ae17c1ee52b36e68aaf4ad066387
     GAriGU: 8f7f4c1ce7a4f933663d10543562b096
+    GJYfO5: 64c1480e29b07dff82a0e0215336722d
     HwLRN6: 272ccb8592bafde0baf1dedce0fd3ac2
     Ik3d0Z: cb5480c32e71778852b08ae1e8712775
+    J4mVN0: ff0f4960555ff95b5cdacd4468cea37f
+    JSBaSs: d554d9bf0cd8f79c215600eeb77825e8
+    Qbh2v4: a208fa20c1fd9502a6272404a311ceac
+    Sflb6p: 241cc23d593b169c3db310eb316e3c1f
     VeCJxU: 8cf04a9734132302f96da8e113e80ce5
-    h6psDG: 583dfd2c874a688b3e37eb21954852a3
+    WH/AgH: ea15f2f26054e18e021005ae8d45e126
+    WSd8dc: d0fbda9855d118740f1105334305c126
+    X5ODFT: 63889cfb9d3cbe05d1bd2be5cc9953fd
+    XtNGCQ: 618f2a9801680dcd30438c926fba7f33
+    YCZmhi: cfe1b4b75fb8dc152b124f9305835a11
+    ZJtn+k: ad5d1458b802a5ae904a99491e83f61a
+    a//1Nk: 57641674e7637fd2b8a91358e96e5eff
+    cKBo3S: 54f619e52218d05eec0cf5c85a39169d
+    currency\.upgrade: 6013800d982185943bcf30edeed14f98
+    e0U4WX: caa5b7a48ce4b1c1492c445446433fb5
+    e61YBp: a7b5740b65c2564383311139ba29224a
+    etzseX: cc68e23db3d38215b0d4b636a111e577
+    f+5xBl: 3d690d9ab88a25df274e55aa76a89de8
+    fcIcNm: 260b0d3f586ce122a345a31d4336e4ce
+    g9FRW7: c93099c4755526bf9af45cdb550e35fc
+    gS30JE: 4e140ba723a03baa6948340bf90e2ef6
+    gcocOv: 6a1e265f92087bb6dd18194833fe946b
+    ghtcSm: 1d2bc6ba0e7701b8a59e7e26d25053a1
+    kDM4sQ: caf57bac80302530124a084701e9c019
+    r09d1x: 9e66e6bd4069124578736528a0432752
+    svYs29: d62968e1245fc470aa53ae9e5646215a
+    u6vMJ8: 940663fd4428d2c86f9a4780b6574028
+    weather\.alerts: 6789a19bf45b2c77d3dfb8c9d3840802
+    weather\.feels_like: 9897f87c37846c6b7436407d5c1c7717
+    weather\.humidity: d31451199066cde5e350ae1d0fc9d067
+    weather\.temperature: 11da41d0f9062c2870648596ee2f2cd6
+    weather\.title: 1441df6b1c10f910ccdc400e40b5fce9
+    weather\.wind: 54ebd8dc9a16a403f223985d6d943190
+    xOx+QF: 221e705c06e231636fdbccfdd14f4d5c
+    yZuimg: 4f4adcbf8c6f66dcfc8a3282ac2bf10a
