@@ -1,25 +1,45 @@
 import type { PropsWithChildren } from "react";
 import { IntlProvider } from "react-intl";
 import { useLocaleContext } from "../locale";
+import { useEffect, useState } from "react";
 import enMessages from "./locales/en.json";
-import esMessages from "./locales/es.json";
-import arMessages from "./locales/ar.json";
 
-const messages = {
-    en: enMessages,
-    es: esMessages,
-    ar: arMessages,
-};
+function useLocaleMessages(locale: string) {
+    const [messages, setMessages] = useState<Record<string, string>>(enMessages);
+
+    useEffect(() => {
+        const loadMessages = async () => {
+            try {
+                let loadedMessages;
+                switch (locale) {
+                    case "es":
+                        loadedMessages = (await import("./locales/es.json")).default;
+                        break;
+                    case "ar":
+                        loadedMessages = (await import("./locales/ar.json")).default;
+                        break;
+                    case "en":
+                    default:
+                        loadedMessages = enMessages;
+                        break;
+                }
+                setMessages(loadedMessages);
+            } catch (error) {
+                console.error("Error loading messages", error);
+            }
+        };
+        loadMessages();
+    }, [locale]);
+
+    return { messages };
+}
 
 export function I18NProvider({ children }: PropsWithChildren) {
     const localeContext = useLocaleContext();
-
-    const nextLocale: keyof typeof messages =
-        localeContext.locale in messages ? (localeContext.locale as keyof typeof messages) : "en";
-    const nextMessages = messages[nextLocale];
+    const { messages } = useLocaleMessages(localeContext.locale);
 
     return (
-        <IntlProvider locale={nextLocale} messages={nextMessages}>
+        <IntlProvider locale={localeContext.locale} messages={messages}>
             {children}
         </IntlProvider>
     );

@@ -42,7 +42,7 @@ const messages = defineMessages({
 
 export function Navigation() {
     const intl = useIntl();
-    const { locale, setLocale } = useLocaleContext();
+    const { setLocale } = useLocaleContext();
     const { theme, setTheme } = useTheme();
 
     const locales = [
@@ -91,7 +91,7 @@ export function Navigation() {
 
                     <div className="flex flex-wrap gap-2">
                         {/* Language Switcher */}
-                        <Select value={locale} onValueChange={setLocale}>
+                        <Select value={intl.locale} onValueChange={setLocale}>
                             <SelectTrigger className="w-40">
                                 <SelectValue />
                             </SelectTrigger>
