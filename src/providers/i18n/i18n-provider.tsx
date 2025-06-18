@@ -5,7 +5,7 @@ import enMessages from "./locales/en.json";
 import esMessages from "./locales/es.json";
 import arMessages from "./locales/ar.json";
 
-const messages = {
+const _messages: Record<string, Record<string, string>> = {
     en: enMessages,
     es: esMessages,
     ar: arMessages,
@@ -14,12 +14,11 @@ const messages = {
 export function I18NProvider({ children }: PropsWithChildren) {
     const localeContext = useLocaleContext();
 
-    const nextLocale: keyof typeof messages =
-        localeContext.locale in messages ? (localeContext.locale as keyof typeof messages) : "en";
-    const nextMessages = messages[nextLocale];
+    const locale = localeContext.locale in _messages ? localeContext.locale : "en";
+    const messages = _messages[locale];
 
     return (
-        <IntlProvider locale={nextLocale} messages={nextMessages}>
+        <IntlProvider locale={locale} messages={messages}>
             {children}
         </IntlProvider>
     );
