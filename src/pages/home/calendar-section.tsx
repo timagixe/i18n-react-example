@@ -15,8 +15,8 @@ const messages = defineMessages({
         defaultMessage: "No upcoming events",
     },
     eventTime: {
-        description: "Format for displaying event date and time, where {date} is the formatted date and {time} is the formatted time",
-        defaultMessage: "{date} at {time}",
+        description: "Format for displaying event relative time and time, where {relativeTime} is the relative time and {time} is the formatted time",
+        defaultMessage: "{relativeTime} at {time}",
     },
     eventsCount: {
         description: "Text showing the number of events this week, with plural forms for different counts",
@@ -31,27 +31,42 @@ const messages = defineMessages({
 export function CalendarSection() {
     const intl = useIntl();
 
-    // Mock calendar events
+    // Mock calendar events with realistic dates
     const events = [
         {
             id: 1,
             title: "Team Meeting",
-            date: new Date(2024, 0, 16, 10, 0),
+            date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 2 days from now
             type: "work",
         },
         {
             id: 2,
             title: "Doctor Appointment",
-            date: new Date(2024, 0, 17, 14, 30),
+            date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
             type: "personal",
         },
         {
             id: 3,
             title: "Project Deadline",
-            date: new Date(2024, 0, 18, 17, 0),
+            date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
             type: "work",
         },
     ];
+
+    // Helper function to get relative time
+    const getRelativeTime = (date: Date) => {
+        const now = new Date();
+        const diffTime = date.getTime() - now.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) {
+            return intl.formatRelativeTime(0, "day");
+        } else if (diffDays === 1) {
+            return intl.formatRelativeTime(1, "day");
+        } else {
+            return intl.formatRelativeTime(diffDays, "day");
+        }
+    };
 
     return (
         <Card>
@@ -83,10 +98,7 @@ export function CalendarSection() {
                                     <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                         <Clock className="h-3 w-3" />
                                         {intl.formatMessage(messages.eventTime, {
-                                            date: intl.formatDate(event.date, {
-                                                month: "short",
-                                                day: "numeric",
-                                            }),
+                                            relativeTime: getRelativeTime(event.date),
                                             time: intl.formatTime(event.date, {
                                                 hour: "numeric",
                                                 minute: "2-digit",
