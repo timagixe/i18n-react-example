@@ -1,7 +1,6 @@
 version: 1
 files:
   src/providers/i18n/locales/en.json:
-    2FRjqj: a9c3de9ef0ce49a73b031931b6255b4c
     3zezWU: c45592188c142a58ab90a9c8c5cb4ba2
     4FWPx3: 42c59972bb4bed383a8860f7d5f5a14b
     5MVAC9: 0845e0da28909ae3ae7c7b016c569bc8
@@ -28,11 +27,11 @@ files:
     YCZmhi: cfe1b4b75fb8dc152b124f9305835a11
     ZJtn+k: ad5d1458b802a5ae904a99491e83f61a
     a//1Nk: 57641674e7637fd2b8a91358e96e5eff
+    aWY+gm: 24b2d9459fb6eb445874d5abb1712d26
     cKBo3S: 54f619e52218d05eec0cf5c85a39169d
     currency\.upgrade: 6013800d982185943bcf30edeed14f98
     e0U4WX: caa5b7a48ce4b1c1492c445446433fb5
     e61YBp: a7b5740b65c2564383311139ba29224a
-    etzseX: cc68e23db3d38215b0d4b636a111e577
     f+5xBl: 3d690d9ab88a25df274e55aa76a89de8
     fcIcNm: 260b0d3f586ce122a345a31d4336e4ce
     g9FRW7: c93099c4755526bf9af45cdb550e35fc
@@ -40,6 +39,7 @@ files:
     gcocOv: 6a1e265f92087bb6dd18194833fe946b
     ghtcSm: 1d2bc6ba0e7701b8a59e7e26d25053a1
     kDM4sQ: caf57bac80302530124a084701e9c019
+    qj99eI: 8bc56145a52be1fffec912f18bbd69a0
     r09d1x: 9e66e6bd4069124578736528a0432752
     svYs29: d62968e1245fc470aa53ae9e5646215a
     u6vMJ8: 940663fd4428d2c86f9a4780b6574028
