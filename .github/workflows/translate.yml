@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/**/*.{ts,tsx}'
       - 'src/providers/i18n/locales/**/*.json'
+      - 'languine.json'
 
 jobs:
   translate:
