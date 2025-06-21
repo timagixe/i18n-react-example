@@ -1,17 +1,12 @@
 {
-  "projectId": "prj_L3zTfSZ25x8Y5Zu4kMd1o",
-  "locale": {
-    "source": "en",
-    "targets": [
-      "es",
-      "ar"
-    ]
-  },
-  "files": {
-    "json": {
-      "include": [
-        "src/providers/i18n/locales/[locale].json"
-      ]
+    "projectId": "prj_L3zTfSZ25x8Y5Zu4kMd1o",
+    "locale": {
+        "source": "en",
+        "targets": ["es", "ar", "fr"]
+    },
+    "files": {
+        "json": {
+            "include": ["src/providers/i18n/locales/[locale].json"]
+        }
     }
-  }
 }
