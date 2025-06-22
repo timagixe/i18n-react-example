@@ -150,14 +150,12 @@ export function FeedbackForm() {
     } = form;
 
     useEffect(() => {
-        // Get fields that have errors
         const fieldsWithErrors = Object.keys(errors);
 
-        // If there are any fields with errors, trigger their validation
         if (fieldsWithErrors.length > 0) {
             trigger(fieldsWithErrors as Array<keyof FormData>);
         }
-    }, [intl.locale, errors, trigger]);
+    }, [intl.messages, errors, trigger]);
 
     if (isSubmitted && submittedData) {
         return (
