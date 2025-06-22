@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import enMessages from "./locales/en.json";
 
 function useLocaleMessages(locale: string) {
-    const [messages, setMessages] = useState<Record<string, string>>(enMessages);
+    const [messages, setMessages] = useState<Record<string, string> | null>(null);
 
     useEffect(() => {
         const loadMessages = async () => {
@@ -37,6 +37,10 @@ function useLocaleMessages(locale: string) {
 export function I18NProvider({ children }: PropsWithChildren) {
     const localeContext = useLocaleContext();
     const { messages } = useLocaleMessages(localeContext.locale);
+
+    if (!messages) {
+        return null;
+    }
 
     return (
         <IntlProvider locale={localeContext.locale} messages={messages}>
