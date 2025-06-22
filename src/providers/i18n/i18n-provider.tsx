@@ -4,31 +4,23 @@ import { useLocaleContext } from "../locale";
 import { useEffect, useState } from "react";
 import enMessages from "./locales/en.json";
 
-function useLocaleMessages(locale: string) {
+const loadMessages = async (locale: string) => {
+    switch (locale) {
+        case "es":
+            return (await import("./locales/es.json")).default;
+        case "ar":
+            return (await import("./locales/ar.json")).default;
+        case "en":
+        default:
+            return enMessages;
+    }
+};
+
+function useLoadMessages(locale: string) {
     const [messages, setMessages] = useState<Record<string, string> | null>(null);
 
     useEffect(() => {
-        const loadMessages = async () => {
-            try {
-                let loadedMessages;
-                switch (locale) {
-                    case "es":
-                        loadedMessages = (await import("./locales/es.json")).default;
-                        break;
-                    case "ar":
-                        loadedMessages = (await import("./locales/ar.json")).default;
-                        break;
-                    case "en":
-                    default:
-                        loadedMessages = enMessages;
-                        break;
-                }
-                setMessages(loadedMessages);
-            } catch (error) {
-                console.error("Error loading messages", error);
-            }
-        };
-        loadMessages();
+        loadMessages(locale).then(setMessages).catch(console.error);
     }, [locale]);
 
     return { messages };
@@ -36,7 +28,7 @@ function useLocaleMessages(locale: string) {
 
 export function I18NProvider({ children }: PropsWithChildren) {
     const localeContext = useLocaleContext();
-    const { messages } = useLocaleMessages(localeContext.locale);
+    const { messages } = useLoadMessages(localeContext.locale);
 
     if (!messages) {
         return null;
