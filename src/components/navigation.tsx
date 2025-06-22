@@ -7,7 +7,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { useLocaleContext } from "@/providers/locale";
+import { useLocaleContext } from "@/providers/i18n";
 import { useTheme } from "@/providers/theme-provider";
 import { Globe, Moon, Sun } from "lucide-react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";

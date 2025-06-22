@@ -1,7 +1,6 @@
 import { createContext } from "react";
 
 type LocaleContextType = {
-    locale: string;
     setLocale: (locale: string) => void;
 };
 

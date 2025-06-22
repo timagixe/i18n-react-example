@@ -1,8 +1,9 @@
 import type { PropsWithChildren } from "react";
 import { IntlProvider } from "react-intl";
-import { useLocaleContext } from "../locale";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import enMessages from "./locales/en.json";
+import { usePersistedLocale } from "./use-persisted-locale";
+import { LocaleContext } from "./locale-context";
 
 const loadMessages = async (locale: string) => {
     switch (locale) {
@@ -27,16 +28,20 @@ function useLoadMessages(locale: string) {
 }
 
 export function I18NProvider({ children }: PropsWithChildren) {
-    const localeContext = useLocaleContext();
-    const { messages } = useLoadMessages(localeContext.locale);
+    const [locale, setLocale] = usePersistedLocale();
+    const { messages } = useLoadMessages(locale);
+
+    const contextValue = useMemo(() => ({ setLocale }), [setLocale]);
 
     if (!messages) {
         return null;
     }
 
     return (
-        <IntlProvider locale={localeContext.locale} messages={messages}>
-            {children}
-        </IntlProvider>
+        <LocaleContext.Provider value={contextValue}>
+            <IntlProvider locale={locale} messages={messages}>
+                {children}
+            </IntlProvider>
+        </LocaleContext.Provider>
     );
 }
