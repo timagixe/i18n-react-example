@@ -28,7 +28,9 @@ export function I18NProvider({ children }: PropsWithChildren) {
 
     useEffect(() => {
         loadMessages({ locale, onSuccess: setMessages, onError: console.error });
-    }, [locale, loadMessages]);
+        // Reason: this is the equivalent of componentDidMount
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     if (!messages) {
         return null;
