@@ -1,11 +1,13 @@
 import { useContext } from "react";
-import { LocaleContext } from "./locale-context";
+import { LocaleSetterContext } from "./locale-setter-context";
 
-export function useLocaleContext() {
-    const context = useContext(LocaleContext);
+export function useLocaleSetterContext() {
+    const context = useContext(LocaleSetterContext);
 
     if (!context) {
-        throw new Error("useLocaleContext must be used within a LocaleProvider");
+        throw new Error(
+            "useLocaleSetterContext must be used within a LocaleSetterContext.Provider",
+        );
     }
 
     return context;
