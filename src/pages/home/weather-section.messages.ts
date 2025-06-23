@@ -7,19 +7,19 @@ export const messages = defineMessages({
     },
     temperature: {
         id: "weather.temperature",
-        defaultMessage: "Current temperature: {temp}°C in {city}",
+        defaultMessage: "Current temperature: {temp} in {city}",
     },
     feelsLike: {
         id: "weather.feels_like",
-        defaultMessage: "Feels like {temp}°C",
+        defaultMessage: "Feels like {temp}",
     },
     humidity: {
         id: "weather.humidity",
-        defaultMessage: "Humidity: {humidity}%",
+        defaultMessage: "Humidity: {humidity}",
     },
     wind: {
         id: "weather.wind",
-        defaultMessage: "Wind: {speed} km/h",
+        defaultMessage: "Wind: {speed}",
     },
     alerts: {
         id: "weather.alerts",
