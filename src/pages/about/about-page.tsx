@@ -1,15 +1,5 @@
-import { defineMessages, FormattedMessage } from "react-intl";
-
-const messages = defineMessages({
-    title: {
-        description: "The about page title",
-        defaultMessage: "About Us",
-    },
-    description: {
-        description: "The about page description",
-        defaultMessage: "This is the about page of our application.",
-    },
-});
+import { FormattedMessage } from "react-intl";
+import { messages } from "./messages";
 
 export function AboutPage() {
     return (

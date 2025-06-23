@@ -10,35 +10,9 @@ import {
 import { useLocaleContext } from "@/providers/i18n";
 import { useTheme } from "@/providers/theme";
 import { Globe, Moon, Sun } from "lucide-react";
-import { defineMessages, FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { NavLink } from "react-router-dom";
-
-const messages = defineMessages({
-    title: {
-        description: "The title of the navigation section",
-        defaultMessage: "Sunny Beach Weather Club!",
-    },
-    home: {
-        description: "The home page link label",
-        defaultMessage: "Home",
-    },
-    about: {
-        description: "The about page link label",
-        defaultMessage: "About",
-    },
-    english: {
-        description: "The English locale label",
-        defaultMessage: "English",
-    },
-    spanish: {
-        description: "The Spanish locale label",
-        defaultMessage: "Spanish",
-    },
-    arabic: {
-        description: "The Arabic locale label",
-        defaultMessage: "Arabic",
-    },
-});
+import { messages } from "./navigation.messages";
 
 export function Navigation() {
     const intl = useIntl();

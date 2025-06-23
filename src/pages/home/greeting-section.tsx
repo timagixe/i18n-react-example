@@ -1,19 +1,9 @@
 "use client";
 
-import { defineMessages, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { User } from "lucide-react";
-
-const messages = defineMessages({
-    welcome: {
-        description: "The welcome message shown at the top of the dashboard",
-        defaultMessage: "Welcome to your personal dashboard",
-    },
-    greeting: {
-        description: "Time-based greeting message, where {name} is the user's name and {timeOfDay} is the time period (morning/afternoon/evening)",
-        defaultMessage: "{timeOfDay, select, morning {Good morning, {name}!} afternoon {Good afternoon, {name}!} evening {Good evening, {name}!} other {Hello, {name}!}}",
-    },
-});
+import { messages } from "./greeting-section.messages";
 
 const getTimeOfDay = (hour: number): "morning" | "afternoon" | "evening" => {
     if (hour >= 17) return "evening";
