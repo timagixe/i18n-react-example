@@ -1,4 +1,4 @@
-import { RouterProvider } from "./router-provider";
+import { RouterProvider } from "./router/router-provider";
 
 export function Providers() {
     return <RouterProvider />;

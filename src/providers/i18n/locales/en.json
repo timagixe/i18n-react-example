@@ -42,11 +42,11 @@
   "svYs29": "Thank you for your feedback!",
   "u6vMJ8": "Message:",
   "weather.alerts": "{count, plural, =0 {No weather alerts} =1 {1 weather alert} other {# weather alerts}}",
-  "weather.feels_like": "Feels like {temp}°C",
-  "weather.humidity": "Humidity: {humidity}%",
-  "weather.temperature": "Current temperature: {temp}°C in {city}",
+  "weather.feels_like": "Feels like {temp}",
+  "weather.humidity": "Humidity: {humidity}",
+  "weather.temperature": "Current temperature: {temp} in {city}",
   "weather.title": "Weather",
-  "weather.wind": "Wind: {speed} km/h",
+  "weather.wind": "Wind: {speed}",
   "xOx+QF": "Your name",
   "yZuimg": "404"
 }

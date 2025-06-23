@@ -1,7 +1,5 @@
-"use client";
-
-import { defineMessages, useIntl } from "react-intl";
-import { useEffect, useState } from "react";
+import { useIntl } from "react-intl";
+import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,89 +17,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-
-const messages = defineMessages({
-    title: {
-        description: "The title of the feedback form section",
-        defaultMessage: "Feedback",
-    },
-    namePlaceholder: {
-        description: "Placeholder text for the name input field",
-        defaultMessage: "Your name",
-    },
-    emailPlaceholder: {
-        description: "Placeholder text for the email input field",
-        defaultMessage: "Your email",
-    },
-    genderPlaceholder: {
-        description: "Placeholder text for the gender selection dropdown",
-        defaultMessage: "Select your gender",
-    },
-    messagePlaceholder: {
-        description: "Placeholder text for the message textarea",
-        defaultMessage: "Your message",
-    },
-    submit: {
-        description: "Text for the submit button",
-        defaultMessage: "Submit Feedback",
-    },
-    submitAnother: {
-        description: "Text for the button to submit another feedback after successful submission",
-        defaultMessage: "Submit Another",
-    },
-    success: {
-        description: "Success message shown after feedback is submitted",
-        defaultMessage: "Thank you for your feedback!",
-    },
-    errorName: {
-        description: "Error message shown when name field is empty",
-        defaultMessage: "Name is required",
-    },
-    errorEmail: {
-        description: "Error message shown when email is invalid or empty",
-        defaultMessage: "Valid email is required",
-    },
-    errorMessage: {
-        description: "Error message shown when message field is empty",
-        defaultMessage: "Message is required",
-    },
-    submittedTitle: {
-        description: "Title shown after feedback is submitted",
-        defaultMessage: "Feedback Submitted",
-    },
-    submittedName: {
-        description: "Label for the submitted name in the success view",
-        defaultMessage: "Name:",
-    },
-    submittedEmail: {
-        description: "Label for the submitted email in the success view",
-        defaultMessage: "Email:",
-    },
-    submittedGender: {
-        description: "Label for the submitted gender in the success view",
-        defaultMessage: "Gender:",
-    },
-    submittedMessage: {
-        description: "Label for the submitted message in the success view",
-        defaultMessage: "Message:",
-    },
-    male: {
-        description: "Option for male gender in the gender selection dropdown",
-        defaultMessage: "Male",
-    },
-    female: {
-        description: "Option for female gender in the gender selection dropdown",
-        defaultMessage: "Female",
-    },
-    other: {
-        description: "Option for other gender in the gender selection dropdown",
-        defaultMessage: "Other",
-    },
-    preferNotToSay: {
-        description: "Option for preferring not to specify gender in the gender selection dropdown",
-        defaultMessage: "Prefer not to say",
-    },
-});
+import { messages } from "./feedback-form.messages";
 
 const genders = [
     { code: "male", message: messages.male },
@@ -122,9 +38,6 @@ export function FeedbackForm() {
 
     type FormData = z.infer<typeof formSchema>;
 
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [submittedData, setSubmittedData] = useState<FormData | null>(null);
-
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -136,11 +49,8 @@ export function FeedbackForm() {
     });
 
     const onSubmit = (data: FormData) => {
-        // Simulate form submission
         setTimeout(() => {
-            setSubmittedData(data);
-            setIsSubmitted(true);
-            form.reset();
+            console.log(data);
         }, 500);
     };
 
@@ -150,16 +60,14 @@ export function FeedbackForm() {
     } = form;
 
     useEffect(() => {
-        // Get fields that have errors
         const fieldsWithErrors = Object.keys(errors);
 
-        // If there are any fields with errors, trigger their validation
         if (fieldsWithErrors.length > 0) {
             trigger(fieldsWithErrors as Array<keyof FormData>);
         }
-    }, [intl.locale, errors, trigger]);
+    }, [intl.messages, errors, trigger]);
 
-    if (isSubmitted && submittedData) {
+    if (form.formState.isSubmitSuccessful && form.formState.isSubmitSuccessful) {
         return (
             <Card>
                 <CardHeader>
@@ -180,7 +88,7 @@ export function FeedbackForm() {
                             <span className="font-medium">
                                 {intl.formatMessage(messages.submittedName)}
                             </span>
-                            <span>{submittedData.name}</span>
+                            <span>{form.getValues().name}</span>
                         </div>
 
                         <div className="flex items-center gap-2 text-sm">
@@ -188,10 +96,10 @@ export function FeedbackForm() {
                             <span className="font-medium">
                                 {intl.formatMessage(messages.submittedEmail)}
                             </span>
-                            <span>{submittedData.email}</span>
+                            <span>{form.getValues().email}</span>
                         </div>
 
-                        {submittedData.gender && (
+                        {form.getValues().gender && (
                             <div className="flex items-center gap-2 text-sm">
                                 <UserRound className="h-4 w-4 text-muted-foreground" />
                                 <span className="font-medium">
@@ -199,7 +107,7 @@ export function FeedbackForm() {
                                 </span>
                                 <span>
                                     {intl.formatMessage(
-                                        genders.find((g) => g.code === submittedData.gender)
+                                        genders.find((g) => g.code === form.getValues().gender)
                                             ?.message || messages.other,
                                     )}
                                 </span>
@@ -213,7 +121,7 @@ export function FeedbackForm() {
                                     {intl.formatMessage(messages.submittedMessage)}
                                 </span>
                                 <p className="mt-1 text-muted-foreground">
-                                    {submittedData.message}
+                                    {form.getValues().message}
                                 </p>
                             </div>
                         </div>
@@ -221,8 +129,7 @@ export function FeedbackForm() {
 
                     <Button
                         onClick={() => {
-                            setIsSubmitted(false);
-                            setSubmittedData(null);
+                            form.reset();
                         }}
                         className="w-full"
                         variant="outline"

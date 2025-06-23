@@ -1,50 +1,16 @@
-"use client";
-
-import { defineMessages, useIntl } from "react-intl";
+import { useIntl, FormattedMessage } from "react-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Cloud, Droplets, Wind, AlertTriangle } from "lucide-react";
-
-const messages = defineMessages({
-    title: {
-        id: "weather.title",
-        defaultMessage: "Weather",
-    },
-    temperature: {
-        id: "weather.temperature",
-        defaultMessage: "Current temperature: {temp}°C in {city}",
-    },
-    feelsLike: {
-        id: "weather.feels_like",
-        defaultMessage: "Feels like {temp}°C",
-    },
-    humidity: {
-        id: "weather.humidity",
-        defaultMessage: "Humidity: {humidity}%",
-    },
-    wind: {
-        id: "weather.wind",
-        defaultMessage: "Wind: {speed} km/h",
-    },
-    alerts: {
-        id: "weather.alerts",
-        defaultMessage:
-            "{count, plural, =0 {No weather alerts} =1 {1 weather alert} other {# weather alerts}}",
-    },
-    upgrade: {
-        id: "currency.upgrade",
-        defaultMessage: "Upgrade to Premium for {price}",
-    },
-});
+import { messages } from "./weather-section.messages";
 
 export function WeatherSection() {
     const intl = useIntl();
 
-    // Mock weather data
     const weatherData = {
         temperature: 22,
         feelsLike: 25,
-        humidity: 65,
+        humidity: 0.65,
         windSpeed: 12,
         city: "Berlin",
         alerts: 1,
@@ -60,37 +26,62 @@ export function WeatherSection() {
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Cloud className="h-5 w-5" />
-                    {intl.formatMessage(messages.title)}
+                    <FormattedMessage {...messages.title} />
                 </CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="space-y-4">
                     <div>
                         <p className="text-lg font-medium">
-                            {intl.formatMessage(messages.temperature, {
-                                temp: intl.formatNumber(weatherData.temperature),
-                                city: weatherData.city,
-                            })}
+                            <FormattedMessage
+                                {...messages.temperature}
+                                values={{
+                                    temp: intl.formatNumber(weatherData.temperature, {
+                                        style: "unit",
+                                        unit: intl.locale === "en" ? "fahrenheit" : "celsius",
+                                    }),
+                                    city: weatherData.city,
+                                }}
+                            />
                         </p>
                         <p className="text-sm text-muted-foreground">
-                            {intl.formatMessage(messages.feelsLike, {
-                                temp: intl.formatNumber(weatherData.feelsLike),
-                            })}
+                            <FormattedMessage
+                                {...messages.feelsLike}
+                                values={{
+                                    temp: intl.formatNumber(weatherData.feelsLike, {
+                                        style: "unit",
+                                        unit: intl.locale === "en" ? "fahrenheit" : "celsius",
+                                    }),
+                                }}
+                            />
                         </p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 text-sm">
                         <div className="flex items-center gap-2">
                             <Droplets className="h-4 w-4" />
-                            {intl.formatMessage(messages.humidity, {
-                                humidity: intl.formatNumber(weatherData.humidity),
-                            })}
+                            <FormattedMessage
+                                {...messages.humidity}
+                                values={{
+                                    humidity: intl.formatNumber(weatherData.humidity, {
+                                        style: "percent",
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 0,
+                                    }),
+                                }}
+                            />
                         </div>
                         <div className="flex items-center gap-2">
                             <Wind className="h-4 w-4" />
-                            {intl.formatMessage(messages.wind, {
-                                speed: intl.formatNumber(weatherData.windSpeed),
-                            })}
+                            <FormattedMessage
+                                {...messages.wind}
+                                values={{
+                                    speed: intl.formatNumber(weatherData.windSpeed, {
+                                        style: "unit",
+                                        unit: intl.locale === "en" ? "mile-per-hour" : "kilometer-per-hour",
+                                    }),
+                                }}
+                            />
                         </div>
                     </div>
 
@@ -98,11 +89,17 @@ export function WeatherSection() {
                         <div className="flex items-center gap-2">
                             <AlertTriangle className="h-4 w-4 text-orange-500" />
                             <span className="text-sm">
-                                {intl.formatMessage(messages.alerts, { count: weatherData.alerts })}
+                                <FormattedMessage
+                                    {...messages.alerts}
+                                    values={{ count: weatherData.alerts }}
+                                />
                             </span>
                         </div>
                         <Badge variant="outline" className="text-xs">
-                            {intl.formatMessage(messages.upgrade, { price: upgradePrice })}
+                            <FormattedMessage
+                                {...messages.upgrade}
+                                values={{ price: upgradePrice }}
+                            />
                         </Badge>
                     </div>
                 </div>

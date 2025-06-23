@@ -1,46 +1,46 @@
 import type { PropsWithChildren } from "react";
 import { IntlProvider } from "react-intl";
-import { useLocaleContext } from "../locale";
-import { useEffect, useState } from "react";
-import enMessages from "./locales/en.json";
-
-function useLocaleMessages(locale: string) {
-    const [messages, setMessages] = useState<Record<string, string>>(enMessages);
-
-    useEffect(() => {
-        const loadMessages = async () => {
-            try {
-                let loadedMessages;
-                switch (locale) {
-                    case "es":
-                        loadedMessages = (await import("./locales/es.json")).default;
-                        break;
-                    case "ar":
-                        loadedMessages = (await import("./locales/ar.json")).default;
-                        break;
-                    case "en":
-                    default:
-                        loadedMessages = enMessages;
-                        break;
-                }
-                setMessages(loadedMessages);
-            } catch (error) {
-                console.error("Error loading messages", error);
-            }
-        };
-        loadMessages();
-    }, [locale]);
-
-    return { messages };
-}
+import { useEffect, useMemo, useState } from "react";
+import { usePersistedLocale } from "./use-persisted-locale";
+import { LocaleSetterContext } from "./locale-setter-context";
+import { useLoadMessages } from "./use-load-messages";
 
 export function I18NProvider({ children }: PropsWithChildren) {
-    const localeContext = useLocaleContext();
-    const { messages } = useLocaleMessages(localeContext.locale);
+    const [locale, setLocale] = usePersistedLocale();
+    const [messages, setMessages] = useState<Record<string, string> | null>(null);
+    const loadMessages = useLoadMessages();
+
+    const contextValue = useMemo(
+        () => ({
+            setLocale: (locale: string) => {
+                loadMessages({
+                    locale,
+                    onError: console.error,
+                    onSuccess: (messages) => {
+                        setLocale(locale);
+                        setMessages(messages);
+                    },
+                });
+            },
+        }),
+        [loadMessages, setLocale],
+    );
+
+    useEffect(() => {
+        loadMessages({ locale, onSuccess: setMessages, onError: console.error });
+        // Reason: this is the equivalent of componentDidMount
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    if (!messages) {
+        return null;
+    }
 
     return (
-        <IntlProvider locale={localeContext.locale} messages={messages}>
-            {children}
-        </IntlProvider>
+        <LocaleSetterContext.Provider value={contextValue}>
+            <IntlProvider locale={locale} messages={messages}>
+                {children}
+            </IntlProvider>
+        </LocaleSetterContext.Provider>
     );
 }
