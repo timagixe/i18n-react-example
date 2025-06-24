@@ -19,12 +19,24 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { messages } from "./feedback-form.messages";
 
-const genders = [
-    { code: "male", message: messages.male },
-    { code: "female", message: messages.female },
-    { code: "other", message: messages.other },
-    { code: "prefer_not_to_say", message: messages.preferNotToSay },
-] as const;
+enum Gender {
+    MALE = "male",
+    FEMALE = "female",
+    OTHER = "other",
+    PREFER_NOT_TO_SAY = "prefer_not_to_say",
+}
+
+const genderToMessageMap = {
+    [Gender.MALE]: messages.male,
+    [Gender.FEMALE]: messages.female,
+    [Gender.OTHER]: messages.other,
+    [Gender.PREFER_NOT_TO_SAY]: messages.preferNotToSay,
+} as const;
+
+const genderOptions = Object.entries(genderToMessageMap).map(([code, message]) => ({
+    code,
+    message,
+}));
 
 export function FeedbackForm() {
     const intl = useIntl();
@@ -32,7 +44,9 @@ export function FeedbackForm() {
     const formSchema = z.object({
         name: z.string().min(1, intl.formatMessage(messages.errorName)),
         email: z.string().email(intl.formatMessage(messages.errorEmail)),
-        gender: z.enum(["male", "female", "other", "prefer_not_to_say"] as const).optional(),
+        gender: z
+            .enum([Gender.MALE, Gender.FEMALE, Gender.OTHER, Gender.PREFER_NOT_TO_SAY] as const)
+            .optional(),
         message: z.string().min(1, intl.formatMessage(messages.errorMessage)),
     });
 
@@ -66,6 +80,8 @@ export function FeedbackForm() {
     }, [intl.messages, errors, trigger]);
 
     if (form.formState.isSubmitSuccessful && form.formState.isSubmitSuccessful) {
+        const gender = form.getValues().gender;
+
         return (
             <Card>
                 <CardHeader>
@@ -99,17 +115,14 @@ export function FeedbackForm() {
                             <span>{form.getValues().email}</span>
                         </div>
 
-                        {form.getValues().gender && (
+                        {gender && (
                             <div className="flex items-center gap-2 text-sm">
                                 <UserRound className="h-4 w-4 text-muted-foreground" />
                                 <span className="font-medium">
                                     <FormattedMessage {...messages.submittedGender} />
                                 </span>
                                 <span>
-                                    <FormattedMessage
-                                        {...(genders.find((g) => g.code === form.getValues().gender)
-                                            ?.message || messages.other)}
-                                    />
+                                    <FormattedMessage {...genderToMessageMap[gender]} />
                                 </span>
                             </div>
                         )}
@@ -210,9 +223,9 @@ export function FeedbackForm() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {genders.map((gender) => (
-                                                <SelectItem key={gender.code} value={gender.code}>
-                                                    <FormattedMessage {...gender.message} />
+                                            {genderOptions.map((option) => (
+                                                <SelectItem key={option.code} value={option.code}>
+                                                    <FormattedMessage {...option.message} />
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
