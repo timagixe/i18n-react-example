@@ -32,7 +32,7 @@
   "e61YBp": "Selecciona tu género",
   "etzseX": "{date} a las {time}",
   "f+5xBl": "{count, plural, =0 {No hay eventos} =1 {1 evento} other {# eventos}} esta semana",
-  "g9FRW7": "Prefiero no decirlo",
+  "g9FRW7": "Prefiero no decir",
   "gS30JE": "Nombre:",
   "gcocOv": "Correo electrónico:",
   "ghtcSm": "Enviar otro",
@@ -49,5 +49,8 @@
   "xOx+QF": "Tu nombre",
   "yZuimg": "404",
   "GJYfO5": "© {year, date, ::yyyy} Nombre de tu empresa. Todos los derechos reservados.",
-  "fcIcNm": "¡Club del clima de Sunny Beach!"
+  "fcIcNm": "¡Club del Tiempo Soleado!",
+  "0J29Kp": "¡Bienvenido a <highlight>{company}</highlight>! Somos un <bold>servicio meteorológico líder</bold> dedicado a proporcionar <italic>información meteorológica precisa y confiable</italic>. Puedes visitar nuestro <link>sitio web principal</link> para más detalles sobre nuestros servicios.",
+  "0kot4l": "Nuestros servicios clave incluyen <b>actualizaciones meteorológicas en tiempo real</b>, <b>pronósticos detallados</b> y <b>alertas meteorológicas</b> para mantenerte informado y seguro.",
+  "Tf4ZQ9": "Ponte en contacto con nosotros: <email>contact@sunnybeachweather.com</email> | <phone>+1 (555) 123-4567</phone> | Visita nuestro <website>sitioweb</website>"
 }

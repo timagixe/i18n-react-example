@@ -1,4 +1,4 @@
-import { useIntl } from "react-intl";
+import { useIntl, FormattedMessage } from "react-intl";
 import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,12 +19,24 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { messages } from "./feedback-form.messages";
 
-const genders = [
-    { code: "male", message: messages.male },
-    { code: "female", message: messages.female },
-    { code: "other", message: messages.other },
-    { code: "prefer_not_to_say", message: messages.preferNotToSay },
-] as const;
+enum Gender {
+    MALE = "male",
+    FEMALE = "female",
+    OTHER = "other",
+    PREFER_NOT_TO_SAY = "prefer_not_to_say",
+}
+
+const genderToMessageMap = {
+    [Gender.MALE]: messages.male,
+    [Gender.FEMALE]: messages.female,
+    [Gender.OTHER]: messages.other,
+    [Gender.PREFER_NOT_TO_SAY]: messages.preferNotToSay,
+} as const;
+
+const genderOptions = Object.entries(genderToMessageMap).map(([code, message]) => ({
+    code,
+    message,
+}));
 
 export function FeedbackForm() {
     const intl = useIntl();
@@ -32,7 +44,9 @@ export function FeedbackForm() {
     const formSchema = z.object({
         name: z.string().min(1, intl.formatMessage(messages.errorName)),
         email: z.string().email(intl.formatMessage(messages.errorEmail)),
-        gender: z.enum(["male", "female", "other", "prefer_not_to_say"] as const).optional(),
+        gender: z
+            .enum([Gender.MALE, Gender.FEMALE, Gender.OTHER, Gender.PREFER_NOT_TO_SAY] as const)
+            .optional(),
         message: z.string().min(1, intl.formatMessage(messages.errorMessage)),
     });
 
@@ -49,9 +63,7 @@ export function FeedbackForm() {
     });
 
     const onSubmit = (data: FormData) => {
-        setTimeout(() => {
-            console.log(data);
-        }, 500);
+        console.log(data);
     };
 
     const {
@@ -68,25 +80,29 @@ export function FeedbackForm() {
     }, [intl.messages, errors, trigger]);
 
     if (form.formState.isSubmitSuccessful && form.formState.isSubmitSuccessful) {
+        const gender = form.getValues().gender;
+
         return (
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <MessageSquare className="h-5 w-5" />
-                        {intl.formatMessage(messages.submittedTitle)}
+                        <FormattedMessage {...messages.submittedTitle} />
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <Alert>
                         <CheckCircle className="h-4 w-4" />
-                        <AlertDescription>{intl.formatMessage(messages.success)}</AlertDescription>
+                        <AlertDescription>
+                            <FormattedMessage {...messages.success} />
+                        </AlertDescription>
                     </Alert>
 
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 text-sm">
                             <User className="h-4 w-4 text-muted-foreground" />
                             <span className="font-medium">
-                                {intl.formatMessage(messages.submittedName)}
+                                <FormattedMessage {...messages.submittedName} />
                             </span>
                             <span>{form.getValues().name}</span>
                         </div>
@@ -94,22 +110,19 @@ export function FeedbackForm() {
                         <div className="flex items-center gap-2 text-sm">
                             <Mail className="h-4 w-4 text-muted-foreground" />
                             <span className="font-medium">
-                                {intl.formatMessage(messages.submittedEmail)}
+                                <FormattedMessage {...messages.submittedEmail} />
                             </span>
                             <span>{form.getValues().email}</span>
                         </div>
 
-                        {form.getValues().gender && (
+                        {gender && (
                             <div className="flex items-center gap-2 text-sm">
                                 <UserRound className="h-4 w-4 text-muted-foreground" />
                                 <span className="font-medium">
-                                    {intl.formatMessage(messages.submittedGender)}
+                                    <FormattedMessage {...messages.submittedGender} />
                                 </span>
                                 <span>
-                                    {intl.formatMessage(
-                                        genders.find((g) => g.code === form.getValues().gender)
-                                            ?.message || messages.other,
-                                    )}
+                                    <FormattedMessage {...genderToMessageMap[gender]} />
                                 </span>
                             </div>
                         )}
@@ -118,7 +131,7 @@ export function FeedbackForm() {
                             <MessageSquareMore className="h-4 w-4 text-muted-foreground mt-1" />
                             <div>
                                 <span className="font-medium">
-                                    {intl.formatMessage(messages.submittedMessage)}
+                                    <FormattedMessage {...messages.submittedMessage} />
                                 </span>
                                 <p className="mt-1 text-muted-foreground">
                                     {form.getValues().message}
@@ -134,7 +147,7 @@ export function FeedbackForm() {
                         className="w-full"
                         variant="outline"
                     >
-                        {intl.formatMessage(messages.submitAnother)}
+                        <FormattedMessage {...messages.submitAnother} />
                     </Button>
                 </CardContent>
             </Card>
@@ -146,7 +159,7 @@ export function FeedbackForm() {
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <MessageSquare className="h-5 w-5" />
-                    {intl.formatMessage(messages.title)}
+                    <FormattedMessage {...messages.title} />
                 </CardTitle>
             </CardHeader>
             <CardContent>
@@ -210,9 +223,9 @@ export function FeedbackForm() {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {genders.map((gender) => (
-                                                <SelectItem key={gender.code} value={gender.code}>
-                                                    {intl.formatMessage(gender.message)}
+                                            {genderOptions.map((option) => (
+                                                <SelectItem key={option.code} value={option.code}>
+                                                    <FormattedMessage {...option.message} />
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -242,7 +255,7 @@ export function FeedbackForm() {
                         />
 
                         <Button type="submit" className="w-full">
-                            {intl.formatMessage(messages.submit)}
+                            <FormattedMessage {...messages.submit} />
                         </Button>
                     </form>
                 </Form>
