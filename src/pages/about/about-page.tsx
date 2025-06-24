@@ -35,9 +35,7 @@ export function AboutPage() {
                                     ),
                                     italic: (chunks) => <em className="italic">{chunks}</em>,
                                     highlight: (chunks) => (
-                                        <span className="bg-yellow-800   px-1 rounded">
-                                            {chunks}
-                                        </span>
+                                        <span className="bg-yellow-800 px-1 rounded">{chunks}</span>
                                     ),
                                 }}
                             />
@@ -47,13 +45,7 @@ export function AboutPage() {
                             <FormattedMessage
                                 {...messages.featureList}
                                 values={{
-                                    feature1: (chunks) => (
-                                        <strong className="font-semibold">{chunks}</strong>
-                                    ),
-                                    feature2: (chunks) => (
-                                        <strong className="font-semibold">{chunks}</strong>
-                                    ),
-                                    feature3: (chunks) => (
+                                    b: (chunks) => (
                                         <strong className="font-semibold">{chunks}</strong>
                                     ),
                                 }}

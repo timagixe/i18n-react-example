@@ -1,4 +1,6 @@
 {
+  "0J29Kp": "Welcome to <highlight>{company}</highlight>! We're a <bold>leading weather service</bold> dedicated to providing <italic>accurate and reliable</italic> weather information. You can visit our <link>main website</link> for more details about our services.",
+  "0kot4l": "Our key services include <b>real-time weather updates</b>, <b>detailed forecasts</b>, and <b>weather alerts</b> to keep you informed and safe.",
   "2FRjqj": "Welcome to your personal dashboard",
   "3zezWU": "Submit Feedback",
   "4FWPx3": "Daily News",
@@ -18,6 +20,7 @@
   "JSBaSs": "Your email",
   "Qbh2v4": "Published {date}",
   "Sflb6p": "Go back home",
+  "Tf4ZQ9": "Get in touch with us: <email>contact@sunnybeachweather.com</email> | <phone>+1 (555) 123-4567</phone> | Visit our <website>website</website>",
   "VeCJxU": "Home",
   "WH/AgH": "{type, select, work {Work} personal {Personal} other {Other}}",
   "WSd8dc": "Page not found",
