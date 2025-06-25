@@ -7,22 +7,20 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { useLocaleContext } from "@/providers/i18n";
 import { useTheme } from "@/providers/theme";
 import { Globe, Moon, Sun } from "lucide-react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { messages } from "./navigation.messages";
 
 export function Navigation() {
-    const intl = useIntl();
-    const { setLocale } = useLocaleContext();
+    const [locale, setLocale] = useState("en");
+    // const { setLocale } = useLocaleContext();
     const { theme, setTheme } = useTheme();
 
     const locales = [
-        { code: "en", name: intl.formatMessage(messages.english), flag: "🇺🇸" },
-        { code: "es", name: intl.formatMessage(messages.spanish), flag: "🇪🇸" },
-        { code: "ar", name: intl.formatMessage(messages.arabic), flag: "🇸🇦" },
+        { code: "en", name: "English", flag: "🇺🇸" },
+        { code: "es", name: "Spanish", flag: "🇪🇸" },
+        { code: "ar", name: "Arabic", flag: "🇸🇦" },
     ];
 
     return (
@@ -32,7 +30,7 @@ export function Navigation() {
                     <div className="flex items-center gap-6">
                         <CardTitle className="text-2xl font-bold flex items-center gap-2">
                             <Globe className="h-6 w-6" />
-                            <FormattedMessage {...messages.title} />
+                            Sunny Beach Weather Club!
                         </CardTitle>
                     </div>
 
@@ -47,7 +45,7 @@ export function Navigation() {
                                 }`
                             }
                         >
-                            <FormattedMessage {...messages.home} />
+                            Home
                         </NavLink>
                         <NavLink
                             to="/about"
@@ -59,13 +57,13 @@ export function Navigation() {
                                 }`
                             }
                         >
-                            <FormattedMessage {...messages.about} />
+                            About
                         </NavLink>
                     </nav>
 
                     <div className="flex flex-wrap gap-2">
                         {/* Language Switcher */}
-                        <Select value={intl.locale} onValueChange={setLocale}>
+                        <Select value={locale} onValueChange={(value) => setLocale(value)}>
                             <SelectTrigger className="w-40">
                                 <SelectValue />
                             </SelectTrigger>
