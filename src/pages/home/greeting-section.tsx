@@ -1,7 +1,5 @@
-import { FormattedMessage, FormattedDate } from "react-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { User } from "lucide-react";
-import { messages } from "./greeting-section.messages";
 
 const getTimeOfDay = (hour: number): "morning" | "afternoon" | "evening" => {
     if (hour >= 17) return "evening";
@@ -17,29 +15,13 @@ export function GreetingSection() {
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <User className="h-5 w-5" />
-                    <FormattedMessage {...messages.welcome} />
+                    Welcome to your personal dashboard
                 </CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="space-y-2">
-                    <h2 className="text-xl font-semibold">
-                        <FormattedMessage
-                            {...messages.greeting}
-                            values={{
-                                timeOfDay: getTimeOfDay(new Date().getHours()),
-                                name: userName,
-                            }}
-                        />
-                    </h2>
-                    <p className="text-muted-foreground">
-                        <FormattedDate
-                            value={new Date()}
-                            weekday="long"
-                            year="numeric"
-                            month="long"
-                            day="numeric"
-                        />
-                    </p>
+                    <h2 className="text-xl font-semibold">Good {getTimeOfDay(new Date().getHours())}, {userName}!</h2>
+                    <p className="text-muted-foreground">Wednesday, June 25, 2025</p>
                 </div>
             </CardContent>
         </Card>
