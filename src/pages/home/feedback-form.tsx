@@ -1,5 +1,3 @@
-import { useIntl, FormattedMessage } from "react-intl";
-import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,7 +15,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { messages } from "./feedback-form.messages";
 
 enum Gender {
     MALE = "male",
@@ -27,10 +24,10 @@ enum Gender {
 }
 
 const genderToMessageMap = {
-    [Gender.MALE]: messages.male,
-    [Gender.FEMALE]: messages.female,
-    [Gender.OTHER]: messages.other,
-    [Gender.PREFER_NOT_TO_SAY]: messages.preferNotToSay,
+    [Gender.MALE]: "Male",
+    [Gender.FEMALE]: "Female",
+    [Gender.OTHER]: "Other",
+    [Gender.PREFER_NOT_TO_SAY]: "Prefer not to say",
 } as const;
 
 const genderOptions = Object.entries(genderToMessageMap).map(([code, message]) => ({
@@ -39,15 +36,13 @@ const genderOptions = Object.entries(genderToMessageMap).map(([code, message]) =
 }));
 
 export function FeedbackForm() {
-    const intl = useIntl();
-
     const formSchema = z.object({
-        name: z.string().min(1, intl.formatMessage(messages.errorName)),
-        email: z.string().email(intl.formatMessage(messages.errorEmail)),
+        name: z.string().min(1, "Name is required"),
+        email: z.string().email("Valid email is required"),
         gender: z
             .enum([Gender.MALE, Gender.FEMALE, Gender.OTHER, Gender.PREFER_NOT_TO_SAY] as const)
             .optional(),
-        message: z.string().min(1, intl.formatMessage(messages.errorMessage)),
+        message: z.string().min(1, "Message is required"),
     });
 
     type FormData = z.infer<typeof formSchema>;
@@ -66,19 +61,6 @@ export function FeedbackForm() {
         console.log(data);
     };
 
-    const {
-        trigger,
-        formState: { errors },
-    } = form;
-
-    useEffect(() => {
-        const fieldsWithErrors = Object.keys(errors);
-
-        if (fieldsWithErrors.length > 0) {
-            trigger(fieldsWithErrors as Array<keyof FormData>);
-        }
-    }, [intl.messages, errors, trigger]);
-
     if (form.formState.isSubmitSuccessful && form.formState.isSubmitSuccessful) {
         const gender = form.getValues().gender;
 
@@ -87,52 +69,40 @@ export function FeedbackForm() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <MessageSquare className="h-5 w-5" />
-                        <FormattedMessage {...messages.submittedTitle} />
+                        Feedback Submitted
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <Alert>
                         <CheckCircle className="h-4 w-4" />
-                        <AlertDescription>
-                            <FormattedMessage {...messages.success} />
-                        </AlertDescription>
+                        <AlertDescription>Thank you for your feedback!</AlertDescription>
                     </Alert>
 
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 text-sm">
                             <User className="h-4 w-4 text-muted-foreground" />
-                            <span className="font-medium">
-                                <FormattedMessage {...messages.submittedName} />
-                            </span>
+                            <span className="font-medium">Name:</span>
                             <span>{form.getValues().name}</span>
                         </div>
 
                         <div className="flex items-center gap-2 text-sm">
                             <Mail className="h-4 w-4 text-muted-foreground" />
-                            <span className="font-medium">
-                                <FormattedMessage {...messages.submittedEmail} />
-                            </span>
+                            <span className="font-medium">Email:</span>
                             <span>{form.getValues().email}</span>
                         </div>
 
                         {gender && (
                             <div className="flex items-center gap-2 text-sm">
                                 <UserRound className="h-4 w-4 text-muted-foreground" />
-                                <span className="font-medium">
-                                    <FormattedMessage {...messages.submittedGender} />
-                                </span>
-                                <span>
-                                    <FormattedMessage {...genderToMessageMap[gender]} />
-                                </span>
+                                <span className="font-medium">Gender:</span>
+                                <span>{genderToMessageMap[gender]}</span>
                             </div>
                         )}
 
                         <div className="flex items-start gap-2 text-sm">
                             <MessageSquareMore className="h-4 w-4 text-muted-foreground mt-1" />
                             <div>
-                                <span className="font-medium">
-                                    <FormattedMessage {...messages.submittedMessage} />
-                                </span>
+                                <span className="font-medium">Message:</span>
                                 <p className="mt-1 text-muted-foreground">
                                     {form.getValues().message}
                                 </p>
@@ -147,7 +117,7 @@ export function FeedbackForm() {
                         className="w-full"
                         variant="outline"
                     >
-                        <FormattedMessage {...messages.submitAnother} />
+                        Submit Another
                     </Button>
                 </CardContent>
             </Card>
@@ -159,7 +129,7 @@ export function FeedbackForm() {
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <MessageSquare className="h-5 w-5" />
-                    <FormattedMessage {...messages.title} />
+                    Feedback
                 </CardTitle>
             </CardHeader>
             <CardContent>
@@ -172,12 +142,7 @@ export function FeedbackForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormControl>
-                                            <Input
-                                                placeholder={intl.formatMessage(
-                                                    messages.namePlaceholder,
-                                                )}
-                                                {...field}
-                                            />
+                                            <Input placeholder={"Your name"} {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -192,9 +157,7 @@ export function FeedbackForm() {
                                         <FormControl>
                                             <Input
                                                 type="email"
-                                                placeholder={intl.formatMessage(
-                                                    messages.emailPlaceholder,
-                                                )}
+                                                placeholder={"Your email"}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -215,17 +178,13 @@ export function FeedbackForm() {
                                     >
                                         <FormControl className="w-full">
                                             <SelectTrigger>
-                                                <SelectValue
-                                                    placeholder={intl.formatMessage(
-                                                        messages.genderPlaceholder,
-                                                    )}
-                                                />
+                                                <SelectValue placeholder={"Select your gender"} />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             {genderOptions.map((option) => (
                                                 <SelectItem key={option.code} value={option.code}>
-                                                    <FormattedMessage {...option.message} />
+                                                    {option.message}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -242,9 +201,7 @@ export function FeedbackForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Textarea
-                                            placeholder={intl.formatMessage(
-                                                messages.messagePlaceholder,
-                                            )}
+                                            placeholder={"Your message"}
                                             className="min-h-[100px]"
                                             {...field}
                                         />
@@ -255,7 +212,7 @@ export function FeedbackForm() {
                         />
 
                         <Button type="submit" className="w-full">
-                            <FormattedMessage {...messages.submit} />
+                            Submit Feedback
                         </Button>
                     </form>
                 </Form>
