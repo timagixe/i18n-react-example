@@ -1,12 +1,8 @@
-import { useIntl, FormattedMessage, FormattedRelativeTime } from "react-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock } from "lucide-react";
-import { messages } from "./calendar-section.messages";
 
 export function CalendarSection() {
-    const intl = useIntl();
-
     const events = [
         {
             id: 1,
@@ -34,22 +30,17 @@ export function CalendarSection() {
                 <CardTitle className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <Calendar className="h-5 w-5" />
-                        <FormattedMessage {...messages.title} />
+                        Upcoming Events
                     </div>
                     <Badge variant="secondary" className="text-xs">
-                        <FormattedMessage
-                            {...messages.eventsCount}
-                            values={{ count: events.length }}
-                        />
+                        {events.length} event
                     </Badge>
                 </CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="space-y-3">
                     {events.length === 0 ? (
-                        <p className="text-muted-foreground text-sm">
-                            <FormattedMessage {...messages.noEvents} />
-                        </p>
+                        <p className="text-muted-foreground text-sm">No upcoming events</p>
                     ) : (
                         events.map((event) => (
                             <div
@@ -60,31 +51,14 @@ export function CalendarSection() {
                                     <h4 className="font-medium text-sm">{event.title}</h4>
                                     <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                         <Clock className="h-3 w-3" />
-                                        <FormattedMessage
-                                            {...messages.eventTime}
-                                            values={{
-                                                date: (
-                                                    <FormattedRelativeTime
-                                                        value={Math.floor((event.date.getTime() - Date.now()) / 1000)}
-                                                        updateIntervalInSeconds={1}
-                                                    />
-                                                ),
-                                                time: intl.formatTime(event.date, {
-                                                    hour: "numeric",
-                                                    minute: "2-digit",
-                                                }),
-                                            }}
-                                        />
+                                        {event.date.toLocaleString()}
                                     </div>
                                 </div>
                                 <Badge
                                     variant={event.type === "work" ? "default" : "secondary"}
                                     className="text-xs"
                                 >
-                                    <FormattedMessage
-                                        {...messages.eventType}
-                                        values={{ type: event.type }}
-                                    />
+                                    {event.type === "work" ? "Work" : "Personal"}
                                 </Badge>
                             </div>
                         ))
