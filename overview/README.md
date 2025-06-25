@@ -134,3 +134,16 @@ ICU (International Components for Unicode) helps format content based on locale 
 - `Languin` – free SaaS for automated translation (integrated with GitHub Actions)
 - `Tolgee` – UI translation in the browser (like Figma for i18n)
 - `Intl.DisplayNames`, `Intl.NumberFormat`, `Intl.RelativeTimeFormat` (native JS Intl namespace)
+
+---
+
+### References
+
+- https://languine.ai/
+- https://formatjs.github.io/docs/react-intl/
+- https://lingui.dev/
+- https://www.i18next.com/
+- https://react.i18next.com/
+- https://github.com/i18next/next-i18next
+- https://tolgee.io/
+- https://format-message.github.io/icu-message-format-for-translators/
